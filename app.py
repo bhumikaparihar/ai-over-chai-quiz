@@ -302,15 +302,22 @@ def inject_css():
            CARDS
            ================================================================ */
 
-        .chai-card {
+        /* Targets Streamlit's actual bordered-container element
+           (st.container(border=True)) instead of a hand-rolled div that
+           can't nest across separate st.markdown/widget calls. */
+        div[data-testid="stVerticalBlockBorderWrapper"] {
             background: #ffffff !important;
             border: 1px solid #cfe3ee !important;
-            border-radius: 18px;
-            padding: 1.45rem 1.4rem;
-            box-shadow: 0 8px 28px rgba(18, 52, 91, 0.08);
+            border-radius: 18px !important;
+            box-shadow: 0 8px 28px rgba(18, 52, 91, 0.08) !important;
+            padding: 1.45rem 1.4rem !important;
             margin-bottom: 1.2rem;
+        }
 
+        div[data-testid="stVerticalBlockBorderWrapper"],
+        div[data-testid="stVerticalBlockBorderWrapper"] * {
             color: #12345b !important;
+            -webkit-text-fill-color: #12345b !important;
         }
 
 
@@ -710,8 +717,8 @@ def inject_css():
                 font-size: 2.6rem;
             }
 
-            .chai-card {
-                padding: 1.15rem 1rem;
+            div[data-testid="stVerticalBlockBorderWrapper"] {
+                padding: 1.15rem 1rem !important;
             }
 
             div[data-testid="stRadio"]
@@ -942,12 +949,7 @@ def render_welcome():
         unsafe_allow_html=True,
     )
 
-    with st.container():
-
-        st.markdown(
-            '<div class="chai-card">',
-            unsafe_allow_html=True,
-        )
+    with st.container(border=True):
 
         name = st.text_input(
             "Your name",
@@ -970,22 +972,17 @@ def render_welcome():
             unsafe_allow_html=True,
         )
 
-        st.markdown(
-            "</div>",
-            unsafe_allow_html=True,
-        )
+    start_clicked = st.button(
+        "START QUIZ →",
+        key="start_btn",
+    )
 
-        start_clicked = st.button(
-            "START QUIZ →",
-            key="start_btn",
-        )
-
-        st.markdown(
-            '<div class="welcome-note">'
-            "One submission per email address."
-            "</div>",
-            unsafe_allow_html=True,
-        )
+    st.markdown(
+        '<div class="welcome-note">'
+        "One submission per email address."
+        "</div>",
+        unsafe_allow_html=True,
+    )
 
     if st.session_state.start_error:
         st.error(st.session_state.start_error)
@@ -1094,39 +1091,31 @@ def render_quiz():
         unsafe_allow_html=True,
     )
 
-    st.markdown(
-        '<div class="chai-card">',
-        unsafe_allow_html=True,
-    )
+    with st.container(border=True):
 
-    st.markdown(
-        f'<div class="qtext">'
-        f'{question["question"]}'
-        f"</div>",
-        unsafe_allow_html=True,
-    )
+        st.markdown(
+            f'<div class="qtext">'
+            f'{question["question"]}'
+            f"</div>",
+            unsafe_allow_html=True,
+        )
 
-    current_answer = st.session_state.answers[idx]
+        current_answer = st.session_state.answers[idx]
 
-    selected = st.radio(
-        label="options",
-        options=list(
-            range(len(question["options"]))
-        ),
-        format_func=lambda i: question["options"][i],
-        index=(
-            current_answer
-            if current_answer is not None
-            else None
-        ),
-        key=f"radio_q{idx}",
-        label_visibility="collapsed",
-    )
-
-    st.markdown(
-        "</div>",
-        unsafe_allow_html=True,
-    )
+        selected = st.radio(
+            label="options",
+            options=list(
+                range(len(question["options"]))
+            ),
+            format_func=lambda i: question["options"][i],
+            index=(
+                current_answer
+                if current_answer is not None
+                else None
+            ),
+            key=f"radio_q{idx}",
+            label_visibility="collapsed",
+        )
 
     st.session_state.answers[idx] = selected
 
@@ -1241,77 +1230,69 @@ def render_result():
         unsafe_allow_html=True,
     )
 
-    st.markdown(
-        '<div class="chai-card">',
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        f'<div class="score-big">'
-        f"{score} / {TOTAL_QUESTIONS}"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        f'<div class="score-pct">'
-        f"{pct}%"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
-
-    if pct == 100:
-
-        message = (
-            "Excellent work! You got all the questions right."
-        )
-
-    elif pct >= 70:
-
-        message = (
-            "Great job! You clearly understood the MCP basics."
-        )
-
-    elif pct >= 50:
-
-        message = (
-            "Nice attempt! You picked up the key ideas."
-        )
-
-    else:
-
-        message = (
-            "Thanks for playing along — MCP takes a little "
-            "getting used to!"
-        )
-
-    st.markdown(
-        f'<div class="score-msg">'
-        f"{message}"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
-
-    if st.session_state.get("save_error"):
-
-        st.warning(
-            st.session_state.save_error
-        )
-
-    else:
+    with st.container(border=True):
 
         st.markdown(
-            '<div class="score-footer">'
-            "Your response has been recorded.<br>"
-            "Good luck in the lucky draw!"
-            "</div>",
+            f'<div class="score-big">'
+            f"{score} / {TOTAL_QUESTIONS}"
+            f"</div>",
             unsafe_allow_html=True,
         )
 
-    st.markdown(
-        "</div>",
-        unsafe_allow_html=True,
-    )
+        st.markdown(
+            f'<div class="score-pct">'
+            f"{pct}%"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+        if pct == 100:
+
+            message = (
+                "Excellent work! You got all the questions right."
+            )
+
+        elif pct >= 70:
+
+            message = (
+                "Great job! You clearly understood the MCP basics."
+            )
+
+        elif pct >= 50:
+
+            message = (
+                "Nice attempt! You picked up the key ideas."
+            )
+
+        else:
+
+            message = (
+                "Thanks for playing along — MCP takes a little "
+                "getting used to!"
+            )
+
+        st.markdown(
+            f'<div class="score-msg">'
+            f"{message}"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+        if st.session_state.get("save_error"):
+
+            st.warning(
+                st.session_state.save_error
+            )
+
+        else:
+
+            st.markdown(
+                '<div class="score-footer">'
+                "Your response has been recorded.<br>"
+                "Good luck in the lucky draw!"
+                "</div>",
+                unsafe_allow_html=True,
+            )
 
 
 # -----------------------------------------------------------------------------
@@ -1320,6 +1301,15 @@ def render_result():
 def main():
 
     init_state()
+
+    # --- TEMPORARY VISUAL-DEBUG HOOK (test harness only, not shipped) ---
+    if st.query_params.get("debug_quiz") == "1" and st.session_state.stage == "welcome":
+        st.session_state.stage = "quiz"
+        st.session_state.quiz_questions = build_shuffled_questions()
+        st.session_state.answers = [None] * TOTAL_QUESTIONS
+        st.session_state.q_index = 0
+    # --- END DEBUG HOOK ---
+
     inject_css()
 
     try:
