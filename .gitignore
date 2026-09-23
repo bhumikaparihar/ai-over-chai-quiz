@@ -1,3 +1,5 @@
 .streamlit/secrets.toml
 venv/
 oauth_client.json
+__pycache__/
+*.pyc
