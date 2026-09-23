@@ -8,6 +8,14 @@
 # Note: Google Sheets auth uses an OAuth user refresh token, not a
 # service-account key, per this org's iam.disableServiceAccountKeyCreation
 # policy. See get_refresh_token.py and README.md.
+#
+# FIX (dark-mode option text invisible): Streamlit auto-switches to a dark
+# theme based on the visitor's system/browser preference when no theme is
+# pinned, and its own injected styles can win the cascade against this
+# file's CSS. Fixed by shipping .streamlit/config.toml with an explicit
+# [theme] base = "light" block, so the dark theme is never generated in
+# the first place. The radio-option CSS below also directly targets the
+# inner stMarkdownContainer <p> as extra defense-in-depth.
 # =============================================================================
 
 import random
@@ -171,6 +179,9 @@ def inject_css():
            GLOBAL THEME
            Everything below is explicitly styled so Streamlit/browser
            light or dark mode does not change text visibility.
+           NOTE: .streamlit/config.toml now pins [theme] base = "light",
+           so Streamlit no longer generates dark-mode variables at all.
+           The rules below remain as defense-in-depth.
            ================================================================ */
 
         @import url(
@@ -525,6 +536,17 @@ def inject_css():
         div[data-testid="stRadio"]
         div[role="radiogroup"]
         > label [data-testid] {
+            color: #12345b !important;
+            -webkit-text-fill-color: #12345b !important;
+        }
+
+        /* Extra defense-in-depth: target the option text's actual markdown
+           paragraph directly, in case a more specific Streamlit-injected
+           rule ever wins the cascade tie again. */
+        div[data-testid="stRadio"]
+        div[role="radiogroup"]
+        > label
+        div[data-testid="stMarkdownContainer"] p {
             color: #12345b !important;
             -webkit-text-fill-color: #12345b !important;
         }
