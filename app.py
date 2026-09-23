@@ -310,31 +310,29 @@ def inject_css():
         }
 
         div[data-testid="stRadio"] > label {
-            display: none;
-        }
+    display: none;
+}
 
-        div[data-testid="stRadio"] div[role="radiogroup"] > label {
-            background: var(--c-white);
-            border: 1.5px solid #c9dce7;
-            border-radius: 12px;
-            padding: 0.85rem 1rem;
-            margin-bottom: 0.6rem;
-            width: 100%;
-            color: var(--c-navy) !important;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-        }
+div[data-testid="stRadio"] div[role="radiogroup"] > label {
+    background: var(--c-white);
+    border: 1.5px solid #c9dce7;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.6rem;
+    width: 100%;
+    color: var(--c-navy) !important;
+    font-size: 1rem;
+    font-weight: 500;
+}
 
-        div[data-testid="stRadio"] div[role="radiogroup"] > label:hover {
-            border-color: var(--c-sky);
-            background: #f4fbfe;
-            box-shadow: 0 2px 8px rgba(18,52,91,0.05);
-        }
+div[data-testid="stRadio"] div[role="radiogroup"] > label:hover {
+    border-color: var(--c-sky);
+    background: #f4fbfe;
+}
 
-        div[data-testid="stRadio"] div[role="radiogroup"] > label p {
-            color: var(--c-navy) !important;
-        }
+div[data-testid="stRadio"] div[role="radiogroup"] > label p {
+    color: var(--c-navy) !important;
+}
 
         .stTextInput > div > div > input {
             background: #ffffff !important;
