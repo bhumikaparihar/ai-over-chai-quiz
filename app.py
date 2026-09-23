@@ -29,7 +29,7 @@ except ImportError:
 # App config
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="MCP Knowledge Challenge | AI Over Chai",
+    page_title="MCP Knowledge Quiz | AI Over Chai",
     page_icon="☕",
     layout="centered",
     initial_sidebar_state="collapsed",
@@ -153,12 +153,16 @@ def inject_css():
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
         :root {
-            --c-deep: #041120;
+            --c-bg: #f4f9fc;
+            --c-navy: #12345b;
+            --c-deep: #0b2948;
             --c-teal: #017793;
-            --c-blue: #1c8fb3;
             --c-sky: #2aa2d8;
-            --c-pale: #acd4e4;
-            --c-cyan: #00d4ff;
+            --c-cyan: #00a9d6;
+            --c-pale-blue: #e5f3fa;
+            --c-border: #cfe3ee;
+            --c-muted: #58718a;
+            --c-white: #ffffff;
         }
 
         html, body, [class*="css"] {
@@ -166,105 +170,118 @@ def inject_css():
         }
 
         .stApp {
-            background: radial-gradient(circle at 20% 0%, #0a2338 0%, var(--c-deep) 55%) fixed;
-            color: #eaf6fb;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(42,162,216,0.12) 0%, transparent 28%),
+                radial-gradient(circle at 100% 45%, rgba(1,119,147,0.08) 0%, transparent 25%),
+                var(--c-bg);
+            color: var(--c-navy);
         }
 
         #MainMenu, footer, header {visibility: hidden;}
 
         .block-container {
-            padding-top: 1.5rem;
+            padding-top: 2rem;
             padding-bottom: 3rem;
-            max-width: 640px;
+            max-width: 760px;
         }
 
-        .chai-badge {
-            display: inline-block;
-            padding: 0.3rem 0.9rem;
-            border-radius: 999px;
-            border: 1px solid var(--c-cyan);
+        .claroda-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0.35rem;
+        }
+
+        .claroda-logo img {
+            max-height: 58px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .event-label {
+            text-align: center;
             color: var(--c-cyan);
             font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
+            font-weight: 800;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            margin-bottom: 1rem;
+            margin-bottom: 0.85rem;
         }
 
         .chai-title {
-            font-size: 2.1rem;
+            text-align: center;
+            font-size: 2.25rem;
             font-weight: 800;
             line-height: 1.15;
-            background: linear-gradient(90deg, var(--c-cyan), var(--c-sky) 60%, var(--c-pale));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.4rem;
+            color: var(--c-navy);
+            margin-bottom: 0.45rem;
         }
 
         .chai-subtitle {
-            color: var(--c-pale);
-            font-size: 1.02rem;
-            line-height: 1.5;
-            margin-bottom: 1.4rem;
+            text-align: center;
+            color: var(--c-muted);
+            font-size: 1rem;
+            line-height: 1.55;
+            margin-bottom: 1.5rem;
         }
 
         .chai-card {
-            background: linear-gradient(160deg, rgba(28,143,179,0.14), rgba(4,17,32,0.35));
-            border: 1px solid rgba(0,212,255,0.25);
+            background: rgba(255,255,255,0.96);
+            border: 1px solid var(--c-border);
             border-radius: 18px;
-            padding: 1.4rem 1.3rem;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+            padding: 1.45rem 1.4rem;
+            box-shadow: 0 8px 28px rgba(18,52,91,0.08);
             margin-bottom: 1.2rem;
         }
 
         .chai-pill-row {
             display: flex;
+            justify-content: center;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 0.8rem 0 0.2rem 0;
+            gap: 0.55rem;
+            margin: 1rem 0 0.2rem 0;
         }
 
         .chai-pill {
-            background: rgba(0,212,255,0.10);
-            border: 1px solid rgba(0,212,255,0.35);
-            color: var(--c-pale);
-            padding: 0.35rem 0.75rem;
+            background: var(--c-pale-blue);
+            border: 1px solid #b9dceb;
+            color: var(--c-navy);
+            padding: 0.38rem 0.8rem;
             border-radius: 999px;
             font-size: 0.78rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .qcounter {
-            color: var(--c-cyan);
-            font-weight: 700;
+            color: var(--c-teal);
+            font-weight: 800;
             letter-spacing: 0.08em;
             font-size: 0.85rem;
             text-transform: uppercase;
-            margin-bottom: 0.4rem;
-        }
-
-        .qtext {
-            font-size: 1.3rem;
-            font-weight: 700;
-            line-height: 1.4;
-            color: #f4fbfd;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.45rem;
         }
 
         .progress-track {
             width: 100%;
-            height: 10px;
+            height: 9px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.08);
+            background: #dceaf2;
             overflow: hidden;
-            margin: 0.6rem 0 1.4rem 0;
+            margin: 0.5rem 0 1.35rem 0;
         }
 
         .progress-fill {
             height: 100%;
             border-radius: 999px;
-            background: linear-gradient(90deg, var(--c-teal), var(--c-cyan));
+            background: linear-gradient(90deg, var(--c-teal), var(--c-sky));
             transition: width 0.35s ease;
+        }
+
+        .qtext {
+            font-size: 1.35rem;
+            font-weight: 800;
+            line-height: 1.4;
+            color: var(--c-navy);
+            margin-bottom: 0.8rem;
         }
 
         div.stButton > button {
@@ -272,101 +289,126 @@ def inject_css():
             background: linear-gradient(90deg, var(--c-teal), var(--c-sky));
             color: white;
             font-weight: 700;
-            font-size: 1.02rem;
+            font-size: 1rem;
             padding: 0.75rem 1rem;
-            border-radius: 14px;
+            border-radius: 13px;
             border: none;
-            box-shadow: 0 6px 18px rgba(0,212,255,0.25);
+            box-shadow: 0 6px 18px rgba(0,169,214,0.20);
             transition: transform 0.12s ease, box-shadow 0.12s ease;
         }
+
         div.stButton > button:hover {
             transform: translateY(-1px);
-            box-shadow: 0 8px 22px rgba(0,212,255,0.4);
+            box-shadow: 0 8px 22px rgba(0,169,214,0.28);
             color: white;
         }
-        div.stButton > button:active {
-            transform: translateY(0px);
-        }
+
         div.stButton > button:disabled {
-            background: rgba(255,255,255,0.08);
-            color: rgba(255,255,255,0.35);
+            background: #dbe7ed;
+            color: #8ca0ad;
             box-shadow: none;
         }
 
         div[data-testid="stRadio"] > label {
             display: none;
         }
+
         div[data-testid="stRadio"] div[role="radiogroup"] > label {
-            background: rgba(255,255,255,0.04);
-            border: 1.5px solid rgba(172,212,228,0.25);
-            border-radius: 14px;
-            padding: 0.9rem 1rem;
+            background: var(--c-white);
+            border: 1.5px solid #c9dce7;
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
             margin-bottom: 0.6rem;
             width: 100%;
-            font-size: 1.02rem;
-            transition: border-color 0.15s ease, background 0.15s ease;
+            color: var(--c-navy) !important;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
         }
+
         div[data-testid="stRadio"] div[role="radiogroup"] > label:hover {
-            border-color: var(--c-cyan);
-            background: rgba(0,212,255,0.06);
+            border-color: var(--c-sky);
+            background: #f4fbfe;
+            box-shadow: 0 2px 8px rgba(18,52,91,0.05);
+        }
+
+        div[data-testid="stRadio"] div[role="radiogroup"] > label p {
+            color: var(--c-navy) !important;
         }
 
         .stTextInput > div > div > input {
-            background: rgba(255,255,255,0.05);
-            border: 1.5px solid rgba(172,212,228,0.25);
-            border-radius: 12px;
-            color: #eaf6fb;
+            background: #ffffff !important;
+            border: 1.5px solid #c9dce7 !important;
+            border-radius: 11px;
+            color: var(--c-navy) !important;
+            -webkit-text-fill-color: var(--c-navy) !important;
             padding: 0.7rem 0.9rem;
         }
-        .stTextInput > div > div > input:focus {
-            border-color: var(--c-cyan);
-            box-shadow: 0 0 0 1px var(--c-cyan);
+
+        .stTextInput > div > div > input::placeholder {
+            color: #8aa1b2 !important;
+            opacity: 1;
         }
+
+        .stTextInput > div > div > input:focus {
+            border-color: var(--c-sky) !important;
+            box-shadow: 0 0 0 1px var(--c-sky);
+        }
+
         .stTextInput label {
-            color: var(--c-pale) !important;
-            font-weight: 600;
+            color: var(--c-navy) !important;
+            font-weight: 700;
         }
 
         .score-big {
             font-size: 3.2rem;
             font-weight: 800;
             text-align: center;
-            background: linear-gradient(90deg, var(--c-cyan), var(--c-pale));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--c-navy);
             margin: 0.4rem 0 0 0;
         }
+
         .score-pct {
             text-align: center;
-            color: var(--c-pale);
+            color: var(--c-teal);
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.6rem;
         }
+
         .score-msg {
             text-align: center;
             font-size: 1.15rem;
             font-weight: 700;
-            color: #f4fbfd;
+            color: var(--c-navy);
             margin: 0.6rem 0 1rem 0;
         }
+
         .score-footer {
             text-align: center;
-            color: var(--c-pale);
+            color: var(--c-muted);
             font-size: 0.95rem;
             line-height: 1.6;
         }
 
-        .stAlert {
-            border-radius: 14px;
+        .welcome-note {
+            text-align: center;
+            color: var(--c-muted);
+            font-size: 0.82rem;
+            margin-top: 0.75rem;
         }
 
+        .stAlert {border-radius: 12px;}
+
         @media (max-width: 480px) {
-            .chai-title { font-size: 1.65rem; }
-            .qtext { font-size: 1.12rem; }
-            .score-big { font-size: 2.6rem; }
+            .block-container {padding-top: 1.25rem;}
+            .chai-title {font-size: 1.7rem;}
+            .chai-subtitle {font-size: 0.94rem;}
+            .qtext {font-size: 1.15rem;}
+            .score-big {font-size: 2.6rem;}
+            .chai-card {padding: 1.15rem 1rem;}
         }
-        </style>
+
         """,
         unsafe_allow_html=True,
     )
@@ -513,34 +555,53 @@ def reset_quiz():
 # -----------------------------------------------------------------------------
 # Screens
 # -----------------------------------------------------------------------------
-def render_header(badge_text="CLARODA • AI OVER CHAI"):
-    st.markdown(f'<div class="chai-badge">{badge_text}</div>', unsafe_allow_html=True)
+def render_header():
+    st.markdown('<div class="claroda-logo">', unsafe_allow_html=True)
+    st.image("assets/claroda_logo.png", width=170)
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="event-label">AI OVER CHAI</div>',
+        unsafe_allow_html=True,
+    )
 
 
 def render_welcome():
     render_header()
-    st.markdown('<div class="chai-title">MCP Knowledge Challenge</div>', unsafe_allow_html=True)
     st.markdown(
-        '<div class="chai-subtitle">Think you were paying attention? ☕<br>'
-        "Put your MCP knowledge to the test.</div>",
+        '<div class="chai-title">MCP Knowledge Quiz</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div class="chai-subtitle">'
+        "Let's see what you remember from today's session.<br>"
+        "7 quick questions based on the webinar."
+        '</div>',
         unsafe_allow_html=True,
     )
 
     with st.container():
         st.markdown('<div class="chai-card">', unsafe_allow_html=True)
         name = st.text_input("Your name", value=st.session_state.name, placeholder="e.g. Aditi Sharma")
-        email = st.text_input("Email", value=st.session_state.email, placeholder="e.g. aditi@gmail.com")
+        email = st.text_input(
+            "Work email",
+            value=st.session_state.email,
+            placeholder="e.g. aditi@claroda.com",
+        )
         st.markdown(
             f'<div class="chai-pill-row">'
-            f'<span class="chai-pill">🧠 {TOTAL_QUESTIONS} Questions</span>'
-            f'<span class="chai-pill">🌱 Beginner Friendly</span>'
-            f'<span class="chai-pill">🎁 Lucky Draw Entry</span>'
+            f'<span class="chai-pill">{TOTAL_QUESTIONS} Questions</span>'
+            f'<span class="chai-pill">Beginner Friendly</span>'
+            f'<span class="chai-pill">Lucky Draw Entry</span>'
             f"</div>",
             unsafe_allow_html=True,
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
-        start_clicked = st.button("START CHALLENGE →", key="start_btn")
+        start_clicked = st.button("START QUIZ →", key="start_btn")
+        st.markdown(
+            '<div class="welcome-note">One submission per email address.</div>',
+            unsafe_allow_html=True,
+        )
 
     if st.session_state.start_error:
         st.error(st.session_state.start_error)
@@ -670,14 +731,14 @@ def render_result():
     pct = int(round((score / TOTAL_QUESTIONS) * 100))
 
     render_header()
-    st.markdown('<div class="chai-title">You\'re All Done! 🎉</div>', unsafe_allow_html=True)
+    st.markdown('<div class="chai-title">Quiz Complete!</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="chai-card">', unsafe_allow_html=True)
     st.markdown(f'<div class="score-big">{score} / {TOTAL_QUESTIONS}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="score-pct">{pct}%</div>', unsafe_allow_html=True)
 
     if pct == 100:
-        message = "MCP Master! 🔥"
+        message = "Excellent work! You got all the questions right."
     elif pct >= 70:
         message = "Great job! You clearly understood the MCP basics."
     elif pct >= 50:
@@ -692,7 +753,7 @@ def render_result():
     else:
         st.markdown(
             '<div class="score-footer">Your response has been recorded.<br>'
-            "Good luck in the lucky draw! ☕</div>",
+            "Good luck in the lucky draw!</div>",
             unsafe_allow_html=True,
         )
     st.markdown("</div>", unsafe_allow_html=True)
