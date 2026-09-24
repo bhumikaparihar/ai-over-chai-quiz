@@ -980,7 +980,7 @@ def render_welcome():
         )
 
         email = st.text_input(
-            "Work email",
+            " email",
             value=st.session_state.email,
             placeholder="e.g. aditi@claroda.com",
         )
@@ -1023,7 +1023,7 @@ def render_welcome():
         elif not email_clean:
 
             st.session_state.start_error = (
-                "Please enter your work email to continue."
+                "Please enter your email to continue."
             )
 
         elif not EMAIL_REGEX.match(email_clean):
